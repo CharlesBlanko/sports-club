@@ -1,0 +1,119 @@
+#ddev-generated
+# If you remove the ddev-generated line above you
+# are responsible for maintaining this file. DDEV will not then
+# update it, for example if you add `additional_hostnames`, etc.
+
+http:
+  routers:
+    blanko-club-web-80-http:
+      entrypoints:
+        - http-80
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-web-80"
+      tls: false
+      # middlewares:
+      #   - "blanko-club-redirectHttps"
+    blanko-club-web-8025-http:
+      entrypoints:
+        - http-8025
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-web-8025"
+      tls: false
+      # middlewares:
+      #   - "blanko-club-redirectHttps"
+    blanko-club-web-5173-http:
+      entrypoints:
+        - http-5172
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-web-5173"
+      tls: false
+      # middlewares:
+      #   - "blanko-club-redirectHttps"
+    blanko-club-xhgui-80-http:
+      entrypoints:
+        - http-8143
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-xhgui-80"
+      tls: false
+      # middlewares:
+      #   - "blanko-club-redirectHttps"
+    
+    
+    
+    
+    blanko-club-web-80-https:
+      entrypoints:
+        - http-443
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-web-80"
+      
+      tls: true
+      
+    blanko-club-web-8025-https:
+      entrypoints:
+        - http-8026
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-web-8025"
+      
+      tls: true
+      
+    blanko-club-web-5173-https:
+      entrypoints:
+        - http-5173
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-web-5173"
+      
+      tls: true
+      
+    
+    blanko-club-xhgui-80-https:
+      entrypoints:
+        - http-8142
+      rule: HostRegexp(`^blanko-club\.ddev\.site$`)
+      
+      service: "blanko-club-xhgui-80"
+      
+      tls: true
+      
+    
+
+  middlewares:
+    blanko-club-redirectHttps:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    blanko-club-web-80:
+      loadbalancer:
+        servers:
+          - url: http://ddev-blanko-club-web:80
+        
+    blanko-club-web-8025:
+      loadbalancer:
+        servers:
+          - url: http://ddev-blanko-club-web:8025
+        
+    blanko-club-web-5173:
+      loadbalancer:
+        servers:
+          - url: http://ddev-blanko-club-web:5173
+        
+    
+    
+    
+    blanko-club-xhgui-80:
+      loadbalancer:
+        servers:
+          - url: http://ddev-blanko-club-xhgui:80
+        
+    
+    
+

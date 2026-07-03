@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
@@ -33,11 +35,7 @@ class StravaClient
             'grant_type' => 'authorization_code',
         ]);
 
-        if ($response->failed()) {
-            throw new RuntimeException('Impossible de connecter Strava.');
-        }
-
-        return $response->json();
+        return $this->decodeResponse($response, 'Impossible de connecter Strava.');
     }
 
     public function refreshToken(User $user): User
@@ -53,11 +51,7 @@ class StravaClient
             'refresh_token' => $user->refresh_token,
         ]);
 
-        if ($response->failed()) {
-            throw new RuntimeException('Impossible de rafraichir la session Strava.');
-        }
-
-        $payload = $response->json();
+        $payload = $this->decodeResponse($response, 'Impossible de rafraichir la session Strava.');
 
         $user->forceFill([
             'access_token' => $payload['access_token'],
@@ -79,10 +73,13 @@ class StravaClient
         $page = 1;
 
         do {
-            $clubs = $this->request($accessToken)->get('/athlete/clubs', [
-                'page' => $page,
-                'per_page' => 200,
-            ])->throw()->json();
+            $clubs = $this->decodeResponse(
+                $this->request($accessToken)->get('/athlete/clubs', [
+                    'page' => $page,
+                    'per_page' => 200,
+                ]),
+                'Impossible de verifier le club Strava.'
+            );
 
             if (collect($clubs)->contains(fn (array $club) => (int) $club['id'] === $clubId)) {
                 return true;
@@ -101,10 +98,13 @@ class StravaClient
         $page = 1;
 
         do {
-            $batch = $this->request($user->access_token)->get('/athlete/activities', [
-                'page' => $page,
-                'per_page' => 200,
-            ])->throw()->json();
+            $batch = $this->decodeResponse(
+                $this->request($user->access_token)->get('/athlete/activities', [
+                    'page' => $page,
+                    'per_page' => 200,
+                ]),
+                'Impossible de synchroniser les activites Strava.'
+            );
 
             array_push($activities, ...$batch);
             $page++;
@@ -119,5 +119,32 @@ class StravaClient
             ->acceptJson()
             ->withToken($accessToken)
             ->timeout(30);
+    }
+
+    private function decodeResponse(Response $response, string $fallbackMessage): array
+    {
+        try {
+            return $response->throw()->json();
+        } catch (RequestException $exception) {
+            if ($this->isInactiveApplicationResponse($exception->response)) {
+                throw new RuntimeException(
+                    "L'application Strava configuree est inactive. Activez-la dans le tableau de bord Strava API, puis reessayez.",
+                    previous: $exception
+                );
+            }
+
+            throw new RuntimeException($fallbackMessage, previous: $exception);
+        }
+    }
+
+    private function isInactiveApplicationResponse(?Response $response): bool
+    {
+        if (! $response || $response->status() !== 403) {
+            return false;
+        }
+
+        return collect($response->json('errors', []))->contains(fn (array $error) => ($error['resource'] ?? null) === 'Application'
+            && ($error['field'] ?? null) === 'Status'
+            && ($error['code'] ?? null) === 'Inactive');
     }
 }

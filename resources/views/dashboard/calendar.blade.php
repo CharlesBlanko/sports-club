@@ -3,20 +3,38 @@
 @php
     $sportStyles = [
         'Run' => 'bg-clay text-white',
-        'TrailRun' => 'bg-clay text-white',
-        'VirtualRun' => 'bg-clay text-white',
         'Ride' => 'bg-lake text-white',
-        'VirtualRide' => 'bg-lake text-white',
         'MountainBikeRide' => 'bg-lake text-white',
-        'GravelRide' => 'bg-lake text-white',
-        'EBikeRide' => 'bg-lake text-white',
-        'EMountainBikeRide' => 'bg-lake text-white',
         'Walk' => 'bg-moss text-white',
         'Hike' => 'bg-moss text-white',
         'Swim' => 'bg-sky-600 text-white',
+        'Kayaking' => 'bg-sky-600 text-white',
+        'Canoeing' => 'bg-sky-600 text-white',
         'Workout' => 'bg-asphalt text-white',
         'WeightTraining' => 'bg-asphalt text-white',
         'Yoga' => 'bg-asphalt text-white',
+        'Golf' => 'bg-moss text-white',
+    ];
+
+    $sportLabels = [
+        'Run' => 'Course',
+        'Ride' => 'V&eacute;lo',
+        'MountainBikeRide' => 'V&eacute;lo de montagne',
+        'Walk' => 'Marche',
+        'Hike' => 'Randonn&eacute;e',
+        'Swim' => 'Natation',
+        'Kayaking' => 'Kayak',
+        'Canoeing' => 'Canot',
+        'Workout' => 'Entra&icirc;nement',
+        'Yoga' => 'Yoga',
+        'Pilates' => 'Pilates',
+        'Soccer' => 'Soccer',
+        'Tennis' => 'Tennis',
+        'Golf' => 'Golf',
+        'AlpineSki' => 'Ski',
+        'Snowboard' => 'Snowboard',
+        'Sail' => 'Sport nautique',
+        'Autre' => 'Autre',
     ];
 @endphp
 
@@ -50,10 +68,11 @@
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach ($day['sports'] as $sport)
                                     @php($style = $sportStyles[$sport['sport']] ?? 'bg-asphalt text-white')
-                                    <button class="activity-dot relative grid size-8 place-items-center rounded {{ $style }}" style="padding: 3px;" aria-label="{{ $sport['sport'] }}">
+                                    @php($label = $sportLabels[$sport['sport']] ?? e($sport['sport']))
+                                    <button class="activity-dot relative grid size-8 place-items-center rounded {{ $style }}" style="padding: 3px;" aria-label="{!! $label !!}">
                                         @include('dashboard.partials.sport-icon', ['sport' => $sport['sport']])
                                         <span class="activity-tooltip absolute left-1/2 top-9 z-10 w-48 -translate-x-1/2 rounded bg-asphalt px-3 py-2 text-left text-xs font-medium text-white shadow-lg">
-                                            <span class="block font-bold">{{ $sport['sport'] }} &middot; {{ $sport['count'] }}</span>
+                                            <span class="block font-bold">{!! $label !!} &middot; {{ $sport['count'] }}</span>
                                             {{ $sport['members']->join(', ') }}
                                         </span>
                                     </button>

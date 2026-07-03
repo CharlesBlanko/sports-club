@@ -120,7 +120,7 @@ class DashboardController extends Controller
                     'date' => $day->copy(),
                     'in_month' => $day->isSameMonth($month),
                     'sports' => $daily
-                        ->groupBy(fn (Activity $activity) => $activity->sport_type ?: $activity->type ?: 'Autre')
+                        ->groupBy(fn (Activity $activity) => $this->calendarSportGroup($activity->sport_type ?: $activity->type ?: 'Autre'))
                         ->map(fn (Collection $items, string $sport) => [
                             'sport' => $sport,
                             'members' => $items->pluck('user.name')->unique()->sort()->values(),
@@ -129,5 +129,19 @@ class DashboardController extends Controller
                         ->values(),
                 ];
             }));
+    }
+
+    private function calendarSportGroup(string $sport): string
+    {
+        return match ($sport) {
+            'MountainBikeRide', 'EMountainBikeRide' => 'MountainBikeRide',
+            'Ride', 'VirtualRide', 'GravelRide', 'EBikeRide', 'Handcycle', 'Velomobile' => 'Ride',
+            'Run', 'TrailRun', 'VirtualRun' => 'Run',
+            'AlpineSki', 'BackcountrySki', 'NordicSki', 'RollerSki' => 'AlpineSki',
+            'Kitesurf', 'Rowing', 'Sail', 'StandUpPaddling', 'Surfing', 'Windsurf' => 'Sail',
+            'Tennis', 'Pickleball', 'Racquetball', 'Squash' => 'Tennis',
+            'WeightTraining', 'Crossfit' => 'Workout',
+            default => $sport,
+        };
     }
 }

@@ -16,26 +16,6 @@
         'Golf' => 'bg-moss text-white',
     ];
 
-    $sportLabels = [
-        'Run' => 'Course',
-        'Ride' => 'V&eacute;lo',
-        'MountainBikeRide' => 'V&eacute;lo de montagne',
-        'Walk' => 'Marche',
-        'Hike' => 'Randonn&eacute;e',
-        'Swim' => 'Natation',
-        'Kayaking' => 'Kayak',
-        'Canoeing' => 'Canot',
-        'Workout' => 'Entra&icirc;nement',
-        'Yoga' => 'Yoga',
-        'Pilates' => 'Pilates',
-        'Soccer' => 'Soccer',
-        'Tennis' => 'Tennis',
-        'Golf' => 'Golf',
-        'AlpineSki' => 'Ski',
-        'Snowboard' => 'Snowboard',
-        'Sail' => 'Sport nautique',
-        'Autre' => 'Autre',
-    ];
 @endphp
 
 @section('content')
@@ -68,7 +48,7 @@
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach ($day['sports'] as $sport)
                                     @php($style = $sportStyles[$sport['sport']] ?? 'bg-asphalt text-white')
-                                    @php($label = $sportLabels[$sport['sport']] ?? e($sport['sport']))
+                                    @php($label = $sport['label'])
                                     <button class="activity-dot relative grid size-8 place-items-center rounded {{ $style }}" style="padding: 3px;" aria-label="{!! $label !!}">
                                         @include('dashboard.partials.sport-icon', ['sport' => $sport['sport']])
                                         <span class="activity-tooltip absolute left-1/2 top-9 z-10 w-48 -translate-x-1/2 rounded bg-asphalt px-3 py-2 text-left text-xs font-medium text-white shadow-lg">

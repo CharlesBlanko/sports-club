@@ -24,7 +24,7 @@
                             <h3 class="font-bold text-asphalt">{{ $activity->name }}</h3>
                             <p class="text-sm text-black/60">{{ $activity->user->name }} &middot; {{ $activity->started_at->translatedFormat('j F Y, H:i') }}</p>
                         </div>
-                        <span class="rounded bg-black/[0.06] px-3 py-1 text-xs font-bold uppercase text-black/65">{{ $activity->sport_type ?? $activity->type ?? 'Autre' }}</span>
+                        <span class="rounded bg-black/[0.06] px-3 py-1 text-xs font-bold uppercase text-black/65">{!! $activity->sport_label !!}</span>
                     </div>
                     <div class="mt-4 grid grid-cols-3 gap-3 text-sm">
                         <div><span class="block text-xs uppercase text-black/50">Distance</span><strong>{{ number_format($activity->distance / 1000, 1, ',', ' ') }} km</strong></div>

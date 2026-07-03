@@ -68,7 +68,12 @@ class DashboardController extends Controller
             ->with('user')
             ->latest('started_at')
             ->limit(15)
-            ->get();
+            ->get()
+            ->map(function (Activity $activity) {
+                $activity->sport_label = $this->sportLabel($this->calendarSportGroup($activity->sport_type ?: $activity->type ?: 'Autre'));
+
+                return $activity;
+            });
 
         return view('dashboard.activities', [
             'latestActivities' => $latestActivities,
@@ -123,6 +128,7 @@ class DashboardController extends Controller
                         ->groupBy(fn (Activity $activity) => $this->calendarSportGroup($activity->sport_type ?: $activity->type ?: 'Autre'))
                         ->map(fn (Collection $items, string $sport) => [
                             'sport' => $sport,
+                            'label' => $this->sportLabel($sport),
                             'members' => $items->pluck('user.name')->unique()->sort()->values(),
                             'count' => $items->count(),
                         ])
@@ -142,6 +148,31 @@ class DashboardController extends Controller
             'Tennis', 'Pickleball', 'Racquetball', 'Squash' => 'Tennis',
             'WeightTraining', 'Crossfit' => 'Workout',
             default => $sport,
+        };
+    }
+
+    private function sportLabel(string $sport): string
+    {
+        return match ($sport) {
+            'Run' => 'Course',
+            'Ride' => 'V&eacute;lo',
+            'MountainBikeRide' => 'V&eacute;lo de montagne',
+            'Walk' => 'Marche',
+            'Hike' => 'Randonn&eacute;e',
+            'Swim' => 'Natation',
+            'Kayaking' => 'Kayak',
+            'Canoeing' => 'Canot',
+            'Workout' => 'Entra&icirc;nement',
+            'Yoga' => 'Yoga',
+            'Pilates' => 'Pilates',
+            'Soccer' => 'Soccer',
+            'Tennis' => 'Tennis',
+            'Golf' => 'Golf',
+            'AlpineSki' => 'Ski',
+            'Snowboard' => 'Snowboard',
+            'Sail' => 'Sport nautique',
+            'Autre' => 'Autre',
+            default => e($sport),
         };
     }
 }

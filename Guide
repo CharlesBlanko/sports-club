@@ -1,0 +1,21 @@
+J'aurais besoin d'une application permettant de suivre un club sur la plateforme STRAVA
+
+Le frontend serait fait avec la version la plus récente et stable du framework Tailwind
+
+L'application serait basée sur la version stable la plus à jour de Laravel pourra fonctionner sur DDEV pour le dévellopement local.
+
+Un fichier .env pourra contenir les configurations importantes comme, la clé d'API strava,et l'ID du club Strava
+
+Les utilisateurs pourront se connecter à l'application avec leurs accès Strava en passant par l'API Strava.
+
+La connexion de l'utilisateur ne devrait pas fonctionner si la personne n'est pas membre du club entré dans le fichier .env
+
+Suite à la connexion de l'utilisateur, on ferait un call d'API pour aller chercher la liste complète des activités de l'utilisateur pour les placer dans une base de données unifiée dans l'application. Dans le fond, quand un utilisateur se connecte à l'application avec Strava, toute ses activitées seraient syncronisées dans l'application. Les activées de touts les gens vont se trouver dans la même base de données.
+
+L'application aurait plusieures sections:
+1- La section 'Calendrier' aurait un calendrier contenant toutes les activités des membres du club, dans chacunes des cases de jours, il y aurait des icones représantant les types des activités que les membres on fait, au survol des icones on verrait le nom des membres qui ont effectués ce type d'activité en tooltip
+2- La section 'Groupe' contiendrait un tableau des membres avec le nom du membre, le temps d'activité, le nombre d'activités, la distance parcourue ainsi que l'élévation, il sera possible d'ordonner le tableau selon chaques colonnes du tableau. Il y aurait une boite déroulante de filtres en haut pour afficher selon les filtres suivants: Ce mois, le mois passé, Cette année et Depuis toujours. Dans le tableau, ligne du tableau de la personne connectée devra être mise en emphase avec une couleur différente
+3- La section 'Activités' contiendra une liste des 15 dernières activités individuelles des personnes du club
+
+A quelque part dans l'entête du site, il y aurait un bouton 'Synchroniser' pour syncroniser les activités Strava de l'utilisateur dans la base de données commune
+

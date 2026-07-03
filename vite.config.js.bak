@@ -1,0 +1,39 @@
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
+
+const ddevHostname = process.env.DDEV_HOSTNAME;
+
+const ddevOrigin = ddevHostname ? `https://${ddevHostname}:5173` : null;
+
+const server = ddevOrigin
+    ? {
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: true,
+        origin: ddevOrigin,
+        cors: {
+            origin: /https?:\/\/([A-Za-z0-9-]+\.)?ddev\.site(?::\d+)?$/,
+        },
+        hmr: {
+            protocol: 'wss',
+            host: ddevHostname,
+            clientPort: 5173,
+        },
+    }
+    : {
+        host: '127.0.0.1',
+        port: 5173,
+        strictPort: true,
+    };
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+        tailwindcss(),
+    ],
+    server,
+});

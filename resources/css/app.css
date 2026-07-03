@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@source "../../resources/views/**/*.blade.php";
+@source "../../app/**/*.php";
+
+@theme {
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+    --color-asphalt: #202a33;
+    --color-lake: #256f83;
+    --color-moss: #4f7d58;
+    --color-clay: #b85f3d;
+    --color-paper: #f7f5f0;
+}
+
+body {
+    background: #f7f5f0;
+    color: #202a33;
+}
+
+.activity-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.activity-dot:hover .activity-tooltip,
+.activity-dot:focus .activity-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}

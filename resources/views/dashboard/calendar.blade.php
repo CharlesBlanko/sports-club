@@ -36,8 +36,8 @@
             </div>
         </div>
 
-        <div class="overflow-hidden rounded border border-black/10 bg-white">
-            <div class="grid grid-cols-7 border-b border-black/10 bg-asphalt text-xs font-bold uppercase text-white">
+        <div class="overflow-visible rounded border border-black/10 bg-white">
+            <div class="grid grid-cols-7 rounded-t border-b border-black/10 bg-asphalt text-xs font-bold uppercase text-white">
                 @foreach (['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] as $dayName)
                     <div class="px-3 py-2">{{ $dayName }}</div>
                 @endforeach

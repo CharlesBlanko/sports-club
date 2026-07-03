@@ -16,6 +16,19 @@ class DashboardController extends Controller
 {
     public function index(Request $request): View
     {
+        $calendarMonth = Carbon::parse($request->string('calendar', now()->format('Y-m'))->toString().'-01');
+        $calendar = $this->calendar($calendarMonth);
+
+        return view('dashboard.calendar', [
+            'calendar' => $calendar,
+            'calendarMonth' => $calendarMonth,
+            'previousMonth' => $calendarMonth->copy()->subMonth()->format('Y-m'),
+            'nextMonth' => $calendarMonth->copy()->addMonth()->format('Y-m'),
+        ]);
+    }
+
+    public function group(Request $request): View
+    {
         $period = $request->string('period', 'month')->toString();
         $sort = $request->string('sort', 'distance')->toString();
         $direction = $request->string('direction', 'desc')->toString() === 'asc' ? 'asc' : 'desc';
@@ -40,26 +53,25 @@ class DashboardController extends Controller
 
         $members = $this->sortMembers($members, $sort, $direction);
 
-        $calendarMonth = Carbon::parse($request->string('calendar', now()->format('Y-m'))->toString().'-01');
-        $calendar = $this->calendar($calendarMonth);
+        return view('dashboard.group', [
+            'period' => $period,
+            'sort' => $sort,
+            'direction' => $direction,
+            'members' => $members,
+            'currentUserId' => Auth::id(),
+        ]);
+    }
 
+    public function activities(): View
+    {
         $latestActivities = Activity::query()
             ->with('user')
             ->latest('started_at')
             ->limit(15)
             ->get();
 
-        return view('dashboard.index', [
-            'period' => $period,
-            'sort' => $sort,
-            'direction' => $direction,
-            'members' => $members,
-            'calendar' => $calendar,
-            'calendarMonth' => $calendarMonth,
-            'previousMonth' => $calendarMonth->copy()->subMonth()->format('Y-m'),
-            'nextMonth' => $calendarMonth->copy()->addMonth()->format('Y-m'),
+        return view('dashboard.activities', [
             'latestActivities' => $latestActivities,
-            'currentUserId' => Auth::id(),
         ]);
     }
 

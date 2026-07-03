@@ -1,0 +1,82 @@
+@extends('layouts.app')
+
+@php
+    $periodLabels = [
+        'month' => 'Ce mois',
+        'last_month' => 'Le mois pass&eacute;',
+        'year' => 'Cette ann&eacute;e',
+        'all' => 'Depuis toujours',
+    ];
+
+    $sortUrl = function (string $column) use ($sort, $direction, $period) {
+        return request()->fullUrlWithQuery([
+            'sort' => $column,
+            'direction' => $sort === $column && $direction === 'desc' ? 'asc' : 'desc',
+            'period' => $period,
+        ]);
+    };
+
+    $formatDuration = function (int $seconds) {
+        $hours = intdiv($seconds, 3600);
+        $minutes = intdiv($seconds % 3600, 60);
+        return $hours.' h '.str_pad((string) $minutes, 2, '0', STR_PAD_LEFT);
+    };
+@endphp
+
+@section('content')
+    @include('dashboard.partials.heading', [
+        'eyebrow' => 'Classement',
+        'title' => 'Groupe',
+    ])
+
+    <section>
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-xl font-bold text-asphalt">Groupe</h2>
+            <form method="get" class="flex items-center gap-2">
+                <input type="hidden" name="sort" value="{{ $sort }}">
+                <input type="hidden" name="direction" value="{{ $direction }}">
+                <select name="period" class="rounded border border-black/15 bg-white px-3 py-2 text-sm font-semibold" onchange="this.form.submit()">
+                    @foreach ($periodLabels as $value => $label)
+                        <option value="{{ $value }}" @selected($period === $value)>{!! $label !!}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+
+        <div class="overflow-x-auto rounded border border-black/10 bg-white">
+            <table class="min-w-full divide-y divide-black/10 text-sm">
+                <thead class="bg-black/[0.03] text-left text-xs uppercase text-black/60">
+                    <tr>
+                        <th class="px-4 py-3"><a href="{{ $sortUrl('name') }}">Membre</a></th>
+                        <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('moving_time') }}">Temps</a></th>
+                        <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('activities_count') }}">Activit&eacute;s</a></th>
+                        <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('distance') }}">Distance</a></th>
+                        <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('elevation') }}">&Eacute;l&eacute;vation</a></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-black/10">
+                    @forelse ($members as $member)
+                        <tr class="{{ $member['id'] === $currentUserId ? 'bg-lake/10' : '' }}">
+                            <td class="px-4 py-3 font-semibold text-asphalt">
+                                <div class="flex items-center gap-3">
+                                    @if ($member['profile'])
+                                        <img src="{{ $member['profile'] }}" alt="" class="size-9 rounded object-cover">
+                                    @else
+                                        <span class="grid size-9 place-items-center rounded bg-black/10 text-xs">{{ \Illuminate\Support\Str::of($member['name'])->substr(0, 2)->upper() }}</span>
+                                    @endif
+                                    {{ $member['name'] }}
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-right tabular-nums">{{ $formatDuration($member['moving_time']) }}</td>
+                            <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['activities_count'], 0, ',', ' ') }}</td>
+                            <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['distance'] / 1000, 1, ',', ' ') }} km</td>
+                            <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['elevation'], 0, ',', ' ') }} m</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="5" class="px-4 py-8 text-center text-black/55">Aucune activit&eacute; synchronis&eacute;e pour cette p&eacute;riode.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </section>
+@endsection

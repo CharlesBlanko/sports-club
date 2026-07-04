@@ -132,7 +132,14 @@ class DashboardController extends Controller
                         ->map(fn (Collection $items, string $sport) => [
                             'sport' => $sport,
                             'label' => $this->sportLabel($sport),
-                            'members' => $items->pluck('user.name')->unique()->sort()->values(),
+                            'members' => $items
+                                ->groupBy('user_id')
+                                ->map(fn (Collection $memberActivities) => [
+                                    'name' => $memberActivities->first()->user->name,
+                                    'duration' => $this->formatDurationShort($memberActivities->sum('moving_time')),
+                                ])
+                                ->sortBy('name')
+                                ->values(),
                             'count' => $items->count(),
                         ])
                         ->values(),
@@ -177,5 +184,13 @@ class DashboardController extends Controller
             'Autre' => 'Autre',
             default => e($sport),
         };
+    }
+
+    private function formatDurationShort(int $seconds): string
+    {
+        $hours = intdiv($seconds, 3600);
+        $minutes = intdiv($seconds % 3600, 60);
+
+        return $hours.'h'.str_pad((string) $minutes, 2, '0', STR_PAD_LEFT);
     }
 }

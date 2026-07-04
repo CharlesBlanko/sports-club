@@ -51,9 +51,11 @@
                                     @php($label = $sport['label'])
                                     <button class="activity-dot relative grid size-8 place-items-center rounded {{ $style }}" style="padding: 3px;" aria-label="{!! $label !!}">
                                         @include('dashboard.partials.sport-icon', ['sport' => $sport['sport']])
-                                        <span class="activity-tooltip absolute left-1/2 top-9 z-10 w-48 -translate-x-1/2 rounded bg-asphalt px-3 py-2 text-left text-xs font-medium text-white shadow-lg">
-                                            <span class="block font-bold">{!! $label !!} &middot; {{ $sport['count'] }}</span>
-                                            {{ $sport['members']->join(', ') }}
+                                        <span class="activity-tooltip absolute left-1/2 top-9 z-10 w-max min-w-16 -translate-x-1/2 rounded bg-asphalt px-3 py-2 text-left text-xs font-medium text-white shadow-lg">
+                                            <span class="block font-bold">{!! $label !!}</span>
+                                            @foreach ($sport['members'] as $member)
+                                                <span class="block whitespace-nowrap">{{ $member['name'] }}&nbsp;-&nbsp;{{ $member['duration'] }}</span>
+                                            @endforeach
                                         </span>
                                     </button>
                                 @endforeach

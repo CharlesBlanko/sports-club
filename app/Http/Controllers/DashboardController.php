@@ -83,8 +83,11 @@ class DashboardController extends Controller
     private function dateRange(string $period): array
     {
         return match ($period) {
+            'week' => [now()->startOfWeek(), now()->endOfWeek()],
+            'last_week' => [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()],
             'last_month' => [now()->subMonthNoOverflow()->startOfMonth(), now()->subMonthNoOverflow()->endOfMonth()],
             'year' => [now()->startOfYear(), now()->endOfYear()],
+            'last_year' => [now()->subYearNoOverflow()->startOfYear(), now()->subYearNoOverflow()->endOfYear()],
             'all' => [null, null],
             default => [now()->startOfMonth(), now()->endOfMonth()],
         };

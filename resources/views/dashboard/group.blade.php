@@ -2,9 +2,12 @@
 
 @php
     $periodLabels = [
+        'week' => 'Cette semaine',
+        'last_week' => 'La semaine pass&eacute;e',
         'month' => 'Ce mois',
         'last_month' => 'Le mois pass&eacute;',
         'year' => 'Cette ann&eacute;e',
+        'last_year' => "L'ann&eacute;e pass&eacute;e",
         'all' => 'Depuis toujours',
     ];
 

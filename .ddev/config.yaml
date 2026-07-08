@@ -5,7 +5,8 @@ php_version: "8.3"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
-additional_fqdns: []
+additional_fqdns:
+  - localhost
 database:
     type: mysql
     version: "8.4"

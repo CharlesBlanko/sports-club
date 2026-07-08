@@ -59,6 +59,13 @@ class DashboardController extends Controller
             'sort' => $sort,
             'direction' => $direction,
             'members' => $members,
+            'totals' => [
+                'activities_count' => $members->sum('activities_count'),
+                'moving_time' => $members->sum('moving_time'),
+                'energy_blocks' => $members->sum('energy_blocks'),
+                'distance' => $members->sum('distance'),
+                'elevation' => $members->sum('elevation'),
+            ],
             'currentUserId' => Auth::id(),
         ]);
     }

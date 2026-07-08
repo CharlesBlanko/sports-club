@@ -54,6 +54,32 @@
             </form>
         </div>
 
+        <div class="mb-4 rounded border border-black/10 bg-white px-4 py-3">
+            <span class="block text-xs font-bold uppercase text-black/55">Total</span>
+            <div class="group-total-grid mt-2 text-sm">
+                <div>
+                    <span class="block text-xs uppercase text-black/50">Activit&eacute;s</span>
+                    <strong class="text-asphalt">{{ number_format($totals['activities_count'], 0, ',', ' ') }}</strong>
+                </div>
+                <div>
+                    <span class="block text-xs uppercase text-black/50">Temps</span>
+                    <strong class="text-asphalt">{{ $formatDuration($totals['moving_time']) }}</strong>
+                </div>
+                <div>
+                    <span class="block text-xs uppercase text-black/50">Blocs d'&eacute;nergie</span>
+                    <strong class="text-asphalt">{{ number_format($totals['energy_blocks'], 1, ',', ' ') }}</strong>
+                </div>
+                <div>
+                    <span class="block text-xs uppercase text-black/50">Distance</span>
+                    <strong class="text-asphalt">{{ number_format($totals['distance'] / 1000, 1, ',', ' ') }} km</strong>
+                </div>
+                <div>
+                    <span class="block text-xs uppercase text-black/50">&Eacute;l&eacute;vation</span>
+                    <strong class="text-asphalt">{{ number_format($totals['elevation'], 0, ',', ' ') }} m</strong>
+                </div>
+            </div>
+        </div>
+
         <div class="overflow-x-auto rounded border border-black/10 bg-white">
             <table class="min-w-full divide-y divide-black/10 text-sm">
                 <thead class="bg-black/[0.03] text-left text-xs uppercase text-black/60">

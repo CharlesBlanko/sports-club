@@ -791,6 +791,11 @@ body {
   transform: translate(-50%, 0);
   visibility: visible;
 }
+.group-total-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
 .auth-login-panel {
   max-width: 36rem;
 }
@@ -1084,4 +1089,3 @@ body {
     }
   }
 }
-

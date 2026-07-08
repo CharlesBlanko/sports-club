@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -44,6 +45,46 @@ class AuthenticatedPagesTest extends TestCase
         $this->actingAs($member)
             ->get('/groupe')
             ->assertOk()
+            ->assertSee('Total')
+            ->assertSee('Activit&eacute;s', false)
             ->assertSee('<option value="week" selected>Cette semaine</option>', false);
+    }
+
+    public function test_group_page_displays_total_activities_for_selected_period(): void
+    {
+        $member = User::query()->create([
+            'strava_id' => 12345,
+            'name' => 'Charles Robin',
+            'access_token' => 'access-token',
+            'refresh_token' => 'refresh-token',
+        ]);
+
+        Activity::query()->create([
+            'user_id' => $member->id,
+            'strava_id' => 111,
+            'name' => 'Sortie une',
+            'distance' => 5000,
+            'moving_time' => 1800,
+            'total_elevation_gain' => 125,
+            'started_at' => now(),
+        ]);
+
+        Activity::query()->create([
+            'user_id' => $member->id,
+            'strava_id' => 222,
+            'name' => 'Sortie hors filtre',
+            'moving_time' => 1800,
+            'started_at' => now()->subWeek(),
+        ]);
+
+        $this->actingAs($member)
+            ->get('/groupe?period=week')
+            ->assertOk()
+            ->assertSee('Activit&eacute;s', false)
+            ->assertSee('1')
+            ->assertSee('0 h 30')
+            ->assertSee('2,0')
+            ->assertSee('5,0 km')
+            ->assertSee('125 m');
     }
 }

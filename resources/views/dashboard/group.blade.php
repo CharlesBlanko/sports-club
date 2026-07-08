@@ -60,6 +60,7 @@
                     <tr>
                         <th class="px-4 py-3"><a href="{{ $sortUrl('name') }}">Membre</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('moving_time') }}">Temps</a></th>
+                        <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('energy_blocks') }}">Blocs d'&eacute;nergie</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('activities_count') }}">Activit&eacute;s</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('distance') }}">Distance</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('elevation') }}">&Eacute;l&eacute;vation</a></th>
@@ -80,12 +81,13 @@
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ $formatDuration($member['moving_time']) }}</td>
+                            <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['energy_blocks'], 1, ',', ' ') }}</td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['activities_count'], 0, ',', ' ') }}</td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['distance'] / 1000, 1, ',', ' ') }} km</td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['elevation'], 0, ',', ' ') }} m</td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="px-4 py-8 text-center text-black/55">Aucune activit&eacute; synchronis&eacute;e pour cette p&eacute;riode.</td></tr>
+                        <tr><td colspan="6" class="px-4 py-8 text-center text-black/55">Aucune activit&eacute; synchronis&eacute;e pour cette p&eacute;riode.</td></tr>
                     @endforelse
                 </tbody>
             </table>

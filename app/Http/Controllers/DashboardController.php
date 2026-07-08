@@ -48,6 +48,7 @@ class DashboardController extends Controller
                 'activities_count' => (int) $user->activities_count,
                 'distance' => (float) $user->distance_sum,
                 'moving_time' => (int) $user->moving_time_sum,
+                'energy_blocks' => (int) $user->moving_time_sum / 900,
                 'elevation' => (float) $user->elevation_sum,
             ]);
 
@@ -102,7 +103,7 @@ class DashboardController extends Controller
 
     private function sortMembers(Collection $members, string $sort, string $direction): Collection
     {
-        $allowed = ['name', 'moving_time', 'activities_count', 'distance', 'elevation'];
+        $allowed = ['name', 'moving_time', 'energy_blocks', 'activities_count', 'distance', 'elevation'];
         $sort = in_array($sort, $allowed, true) ? $sort : 'distance';
         $sorted = $sort === 'name' ? $members->sortBy('name') : $members->sortBy($sort);
 

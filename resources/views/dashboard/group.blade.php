@@ -24,6 +24,14 @@
         $minutes = intdiv($seconds % 3600, 60);
         return $hours.' h '.str_pad((string) $minutes, 2, '0', STR_PAD_LEFT);
     };
+
+    $initials = function (string $name) {
+        return collect(preg_split('/\s+/', trim($name)))
+            ->filter()
+            ->take(2)
+            ->map(fn (string $part) => \Illuminate\Support\Str::of($part)->substr(0, 1)->upper())
+            ->join('');
+    };
 @endphp
 
 @section('content')
@@ -63,9 +71,10 @@
                             <td class="px-4 py-3 font-semibold text-asphalt">
                                 <div class="flex items-center gap-3">
                                     @if ($member['profile'])
-                                        <img src="{{ $member['profile'] }}" alt="" class="size-9 rounded object-cover">
+                                        <img src="{{ $member['profile'] }}" alt="" class="size-9 rounded object-cover" onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');">
+                                        <span class="hidden grid size-9 place-items-center rounded bg-black/10 text-xs font-bold text-black/60" aria-hidden="true">{{ $initials($member['name']) }}</span>
                                     @else
-                                        <span class="grid size-9 place-items-center rounded bg-black/10 text-xs">{{ \Illuminate\Support\Str::of($member['name'])->substr(0, 2)->upper() }}</span>
+                                        <span class="grid size-9 place-items-center rounded bg-black/10 text-xs font-bold text-black/60" aria-hidden="true">{{ $initials($member['name']) }}</span>
                                     @endif
                                     {{ $member['name'] }}
                                 </div>

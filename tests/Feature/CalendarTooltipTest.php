@@ -30,6 +30,8 @@ class CalendarTooltipTest extends TestCase
             'started_at' => '2026-07-04 10:00:00',
         ]);
 
+        $this->actingAs($member);
+
         $this->get('/?calendar=2026-07')
             ->assertOk()
             ->assertSee('Charles Robin&nbsp;-&nbsp;1h03', false)

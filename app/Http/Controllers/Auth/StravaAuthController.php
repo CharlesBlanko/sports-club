@@ -31,7 +31,7 @@ class StravaAuthController extends Controller
             $payload = $strava->exchangeCode($request->string('code')->toString());
 
             if (! $strava->athleteBelongsToConfiguredClub($payload['access_token'])) {
-                return redirect()->route('dashboard')->withErrors([
+                return redirect()->route('login')->withErrors([
                     'strava' => "Votre compte Strava n'est pas membre du club configure.",
                 ]);
             }
@@ -61,7 +61,7 @@ class StravaAuthController extends Controller
 
             return redirect()->route('dashboard')->with('status', $count.' activites synchronisees.');
         } catch (RuntimeException $exception) {
-            return redirect()->route('dashboard')->withErrors(['strava' => $exception->getMessage()]);
+            return redirect()->route('login')->withErrors(['strava' => $exception->getMessage()]);
         }
     }
 
@@ -71,6 +71,6 @@ class StravaAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('login');
     }
 }

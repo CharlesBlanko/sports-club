@@ -29,7 +29,7 @@ class DashboardController extends Controller
 
     public function group(Request $request): View
     {
-        $period = $request->string('period', 'month')->toString();
+        $period = $request->string('period', 'week')->toString();
         $sort = $request->string('sort', 'distance')->toString();
         $direction = $request->string('direction', 'desc')->toString() === 'asc' ? 'asc' : 'desc';
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,5 +30,20 @@ class AuthenticatedPagesTest extends TestCase
             ->assertSee('Connexion requise')
             ->assertSee('Connexion Strava')
             ->assertSee(route('strava.redirect'), false);
+    }
+
+    public function test_group_page_defaults_to_current_week_period(): void
+    {
+        $member = User::query()->create([
+            'strava_id' => 12345,
+            'name' => 'Charles Robin',
+            'access_token' => 'access-token',
+            'refresh_token' => 'refresh-token',
+        ]);
+
+        $this->actingAs($member)
+            ->get('/groupe')
+            ->assertOk()
+            ->assertSee('<option value="week" selected>Cette semaine</option>', false);
     }
 }

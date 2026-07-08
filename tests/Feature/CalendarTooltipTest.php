@@ -32,6 +32,9 @@ class CalendarTooltipTest extends TestCase
 
         $this->get('/?calendar=2026-07')
             ->assertOk()
-            ->assertSee('Charles Robin&nbsp;-&nbsp;1h03', false);
+            ->assertSee('Charles Robin&nbsp;-&nbsp;1h03', false)
+            ->assertSee('>4,2</span>', false)
+            ->assertSee('energy-block-icon', false)
+            ->assertSee("Blocs d'&eacute;nergie", false);
     }
 }

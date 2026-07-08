@@ -792,6 +792,42 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+.energy-block-badge {
+  bottom: 0.5rem;
+  background: #fbbf24;
+  padding: 0.25rem 0.375rem;
+  right: 0.5rem;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+.energy-block-icon {
+  height: 0.875rem;
+  width: 0.875rem;
+}
+.energy-block-tooltip {
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 0.375rem;
+  min-width: max-content;
+  padding: 0.5rem 0.75rem;
+  background: #202a33;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity 120ms ease, transform 120ms ease;
+  visibility: hidden;
+  z-index: 10;
+}
+.energy-block-badge:hover .energy-block-tooltip,
+.energy-block-badge:focus .energy-block-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  visibility: visible;
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
@@ -1078,4 +1114,3 @@ body {
     }
   }
 }
-

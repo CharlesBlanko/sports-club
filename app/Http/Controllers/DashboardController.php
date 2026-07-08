@@ -127,6 +127,7 @@ class DashboardController extends Controller
                 return [
                     'date' => $day->copy(),
                     'in_month' => $day->isSameMonth($month),
+                    'energy_blocks' => $daily->isEmpty() ? null : $this->formatEnergyBlocks($daily->sum('moving_time')),
                     'sports' => $daily
                         ->groupBy(fn (Activity $activity) => $this->calendarSportGroup($activity->sport_type ?: $activity->type ?: 'Autre'))
                         ->map(fn (Collection $items, string $sport) => [
@@ -192,5 +193,10 @@ class DashboardController extends Controller
         $minutes = intdiv($seconds % 3600, 60);
 
         return $hours.'h'.str_pad((string) $minutes, 2, '0', STR_PAD_LEFT);
+    }
+
+    private function formatEnergyBlocks(int $seconds): string
+    {
+        return number_format($seconds / 900, 1, ',', ' ');
     }
 }

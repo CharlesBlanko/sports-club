@@ -43,7 +43,7 @@
             @foreach ($calendar as $week)
                 <div class="grid grid-cols-7 border-b border-black/10 last:border-b-0">
                     @foreach ($week as $day)
-                        <div class="min-h-28 border-r border-black/10 p-2 last:border-r-0 {{ $day['in_month'] ? 'bg-white' : 'bg-black/[0.03]' }}">
+                        <div class="relative min-h-28 border-r border-black/10 p-2 pb-10 last:border-r-0 {{ $day['in_month'] ? 'bg-white' : 'bg-black/[0.03]' }}">
                             <div class="mb-2 text-xs font-bold {{ $day['date']->isToday() ? 'text-clay' : 'text-black/55' }}">{{ $day['date']->day }}</div>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach ($day['sports'] as $sport)
@@ -60,6 +60,15 @@
                                     </button>
                                 @endforeach
                             </div>
+                            @if ($day['energy_blocks'])
+                                <div class="energy-block-badge absolute flex items-center gap-1 rounded bg-amber-400 px-1.5 py-1 text-xs font-bold tabular-nums text-asphalt shadow-sm" aria-label="{{ $day['energy_blocks'] }} blocs d'energie" tabindex="0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="energy-block-icon" aria-hidden="true">
+                                        <path d="M13 2l-9 12h7l-1 8l10 -13h-7l0 -7z" />
+                                    </svg>
+                                    <span>{{ $day['energy_blocks'] }}</span>
+                                    <span class="energy-block-tooltip absolute">Blocs d'&eacute;nergie</span>
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                 </div>

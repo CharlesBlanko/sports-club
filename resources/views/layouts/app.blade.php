@@ -22,7 +22,6 @@
             <nav class="flex flex-wrap items-center gap-2 text-sm font-semibold" aria-label="Navigation principale">
                 <a href="{{ route('dashboard') }}" class="rounded px-3 py-2 transition {{ request()->routeIs('dashboard') ? 'bg-asphalt text-white' : 'text-asphalt hover:bg-black/[0.06]' }}">Calendrier</a>
                 <a href="{{ route('dashboard.group') }}" class="rounded px-3 py-2 transition {{ request()->routeIs('dashboard.group') ? 'bg-asphalt text-white' : 'text-asphalt hover:bg-black/[0.06]' }}">Groupe</a>
-                <a href="{{ route('dashboard.activities') }}" class="rounded px-3 py-2 transition {{ request()->routeIs('dashboard.activities') ? 'bg-asphalt text-white' : 'text-asphalt hover:bg-black/[0.06]' }}">Activit&eacute;s</a>
             </nav>
 
             <div class="flex items-center gap-3">

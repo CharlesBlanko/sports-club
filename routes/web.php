@@ -10,7 +10,9 @@ Route::get('/login', fn () => view('auth.login'))->name('login');
 Route::middleware('auth')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/groupe', [DashboardController::class, 'group'])->name('dashboard.group');
-    Route::get('/activites', [DashboardController::class, 'activities'])->name('dashboard.activities');
+    // Activity feed kept in DashboardController::activities() and dashboard.activities
+    // for now, but not exposed while the Strava app approval scope is being reviewed.
+    // Route::get('/activites', [DashboardController::class, 'activities'])->name('dashboard.activities');
     Route::post('/logout', [StravaAuthController::class, 'logout'])->name('logout');
     Route::post('/sync', SyncStravaController::class)->name('sync');
 });

@@ -12,7 +12,7 @@ class AuthenticatedPagesTest extends TestCase
 
     public function test_dashboard_pages_redirect_guests_to_login_page(): void
     {
-        foreach (['/', '/groupe', '/activites'] as $uri) {
+        foreach (['/', '/groupe'] as $uri) {
             $this->get($uri)->assertRedirect(route('login'));
         }
     }

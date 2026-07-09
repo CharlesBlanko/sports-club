@@ -65,7 +65,7 @@
                     <span class="block text-xs uppercase text-black/50">Temps</span>
                     <strong class="text-asphalt">{{ $formatDuration($totals['moving_time']) }}</strong>
                 </div>
-                <div>
+                <div class="text-center">
                     <span class="block text-xs uppercase text-black/50">Blocs d'&eacute;nergie</span>
                     <strong class="energy-block-pill">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="energy-block-icon" aria-hidden="true">
@@ -91,7 +91,7 @@
                     <tr>
                         <th class="px-4 py-3"><a href="{{ $sortUrl('name') }}">Membre</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('moving_time') }}">Temps</a></th>
-                        <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('energy_blocks') }}">Blocs d'&eacute;nergie</a></th>
+                        <th class="px-4 py-3 text-center"><a href="{{ $sortUrl('energy_blocks') }}">Blocs d'&eacute;nergie</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('activities_count') }}">Activit&eacute;s</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('distance') }}">Distance</a></th>
                         <th class="px-4 py-3 text-right"><a href="{{ $sortUrl('elevation') }}">&Eacute;l&eacute;vation</a></th>
@@ -112,7 +112,7 @@
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ $formatDuration($member['moving_time']) }}</td>
-                            <td class="px-4 py-3 text-right tabular-nums">
+                            <td class="px-4 py-3 text-center tabular-nums">
                                 <span class="energy-block-pill">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="energy-block-icon" aria-hidden="true">
                                         <path d="M13 2l-9 12h7l-1 8l10 -13h-7l0 -7z" />

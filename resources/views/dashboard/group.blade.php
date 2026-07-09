@@ -67,7 +67,12 @@
                 </div>
                 <div>
                     <span class="block text-xs uppercase text-black/50">Blocs d'&eacute;nergie</span>
-                    <strong class="text-asphalt">{{ number_format($totals['energy_blocks'], 1, ',', ' ') }}</strong>
+                    <strong class="energy-block-pill">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="energy-block-icon" aria-hidden="true">
+                            <path d="M13 2l-9 12h7l-1 8l10 -13h-7l0 -7z" />
+                        </svg>
+                        <span>{{ number_format($totals['energy_blocks'], 1, ',', ' ') }}</span>
+                    </strong>
                 </div>
                 <div>
                     <span class="block text-xs uppercase text-black/50">Distance</span>
@@ -107,7 +112,14 @@
                                 </div>
                             </td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ $formatDuration($member['moving_time']) }}</td>
-                            <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['energy_blocks'], 1, ',', ' ') }}</td>
+                            <td class="px-4 py-3 text-right tabular-nums">
+                                <span class="energy-block-pill">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="energy-block-icon" aria-hidden="true">
+                                        <path d="M13 2l-9 12h7l-1 8l10 -13h-7l0 -7z" />
+                                    </svg>
+                                    <span>{{ number_format($member['energy_blocks'], 1, ',', ' ') }}</span>
+                                </span>
+                            </td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['activities_count'], 0, ',', ' ') }}</td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['distance'] / 1000, 1, ',', ' ') }} km</td>
                             <td class="px-4 py-3 text-right tabular-nums">{{ number_format($member['elevation'], 0, ',', ' ') }} m</td>

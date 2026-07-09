@@ -59,6 +59,13 @@ class AuthenticatedPagesTest extends TestCase
             'refresh_token' => 'refresh-token',
         ]);
 
+        $inactiveMember = User::query()->create([
+            'strava_id' => 67890,
+            'name' => 'Membre Inactif',
+            'access_token' => 'access-token',
+            'refresh_token' => 'refresh-token',
+        ]);
+
         Activity::query()->create([
             'user_id' => $member->id,
             'strava_id' => 111,
@@ -70,7 +77,7 @@ class AuthenticatedPagesTest extends TestCase
         ]);
 
         Activity::query()->create([
-            'user_id' => $member->id,
+            'user_id' => $inactiveMember->id,
             'strava_id' => 222,
             'name' => 'Sortie hors filtre',
             'moving_time' => 1800,
@@ -85,6 +92,8 @@ class AuthenticatedPagesTest extends TestCase
             ->assertSee('0 h 30')
             ->assertSee('2,0')
             ->assertSee('5,0 km')
-            ->assertSee('125 m');
+            ->assertSee('125 m')
+            ->assertSee('Charles Robin')
+            ->assertDontSee('Membre Inactif');
     }
 }

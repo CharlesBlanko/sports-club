@@ -50,7 +50,9 @@ class DashboardController extends Controller
                 'moving_time' => (int) $user->moving_time_sum,
                 'energy_blocks' => (int) $user->moving_time_sum / 900,
                 'elevation' => (float) $user->elevation_sum,
-            ]);
+            ])
+            ->filter(fn (array $member) => $member['activities_count'] > 0)
+            ->values();
 
         $members = $this->sortMembers($members, $sort, $direction);
 

@@ -26,11 +26,17 @@ class AuthenticatedPagesTest extends TestCase
 
     public function test_login_page_explains_strava_connection_is_required(): void
     {
-        $this->get('/login')
+        $response = $this->get('/login');
+
+        $response
             ->assertOk()
             ->assertSee('Connexion requise')
-            ->assertSee('Connexion Strava')
+            ->assertSee('Connect with Strava')
+            ->assertSee(asset('images/logo-blanko.svg'), false)
+            ->assertSee(asset('images/btn_strava_connect_with_orange.svg'), false)
             ->assertSee(route('strava.redirect'), false);
+
+        $this->assertSame(2, substr_count($response->getContent(), asset('images/btn_strava_connect_with_orange.svg')));
     }
 
     public function test_group_page_defaults_to_current_week_period(): void

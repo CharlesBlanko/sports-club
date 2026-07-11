@@ -12,10 +12,9 @@
     <header class="border-b border-black/10 bg-white/85 backdrop-blur">
         <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                <span class="grid size-10 place-items-center rounded bg-clay text-lg font-black text-white">BC</span>
+                <img src="{{ asset('images/logo-blanko.svg') }}" width="118" height="30" alt="Blanko">
                 <span>
                     <span class="block text-lg font-bold tracking-tight">{{ config('app.name') }}</span>
-                    <span class="block text-xs uppercase text-black/55">Club Strava</span>
                 </span>
             </a>
 
@@ -35,7 +34,9 @@
                         <button class="rounded border border-black/15 px-4 py-2 text-sm font-semibold text-asphalt transition hover:border-clay hover:text-clay">Déconnexion</button>
                     </form>
                 @else
-                    <a href="{{ route('strava.redirect') }}" class="rounded bg-clay px-4 py-2 text-sm font-semibold text-white transition hover:bg-asphalt">Connexion Strava</a>
+                    <a href="{{ route('strava.redirect') }}" class="inline-block rounded-md transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-clay focus:ring-offset-2" aria-label="Se connecter avec Strava">
+                        <img src="{{ asset('images/btn_strava_connect_with_orange.svg') }}" width="237" height="48" alt="Connect with Strava">
+                    </a>
                 @endauth
             </div>
         </div>

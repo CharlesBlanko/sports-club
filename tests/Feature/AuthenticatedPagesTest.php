@@ -13,7 +13,7 @@ class AuthenticatedPagesTest extends TestCase
 
     public function test_dashboard_pages_redirect_guests_to_login_page(): void
     {
-        foreach (['/', '/groupe'] as $uri) {
+        foreach (['/', '/groupe', '/activites'] as $uri) {
             $this->get($uri)->assertRedirect(route('login'));
         }
     }
@@ -54,6 +54,32 @@ class AuthenticatedPagesTest extends TestCase
             ->assertSee('Total')
             ->assertSee('Activit&eacute;s', false)
             ->assertSee('<option value="week" selected>Cette semaine</option>', false);
+    }
+
+    public function test_activities_page_is_available_to_authenticated_members(): void
+    {
+        $member = User::query()->create([
+            'strava_id' => 12345,
+            'name' => 'Charles Robin',
+            'access_token' => 'access-token',
+            'refresh_token' => 'refresh-token',
+        ]);
+
+        Activity::query()->create([
+            'user_id' => $member->id,
+            'strava_id' => 98765,
+            'name' => 'Entrainement du soir',
+            'sport_type' => 'Workout',
+            'moving_time' => 3600,
+            'started_at' => '2026-07-12 21:29:00',
+        ]);
+
+        $this->actingAs($member)
+            ->get('/activites')
+            ->assertOk()
+            ->assertSee('Activit&eacute;s', false)
+            ->assertSee('Entrainement du soir')
+            ->assertSee(route('dashboard.activities'), false);
     }
 
     public function test_group_page_displays_total_activities_for_selected_period(): void

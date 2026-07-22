@@ -74,11 +74,21 @@ class AuthenticatedPagesTest extends TestCase
             'started_at' => '2026-07-12 21:29:00',
         ]);
 
+        Activity::query()->create([
+            'user_id' => $member->id,
+            'strava_id' => 98766,
+            'name' => 'Cardio elliptique',
+            'sport_type' => 'Elliptical',
+            'moving_time' => 1800,
+            'started_at' => '2026-07-13 18:00:00',
+        ]);
+
         $this->actingAs($member)
             ->get('/activites')
             ->assertOk()
             ->assertSee('Activit&eacute;s', false)
             ->assertSee('Entrainement du soir')
+            ->assertSee('Elliptique')
             ->assertSee(route('dashboard.activities'), false);
     }
 

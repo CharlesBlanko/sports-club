@@ -184,6 +184,7 @@ class DashboardController extends Controller
             'Kayaking' => 'Kayak',
             'Canoeing' => 'Canot',
             'Workout' => 'Entra&icirc;nement',
+            'Elliptical' => 'Elliptique',
             'Yoga' => 'Yoga',
             'Pilates' => 'Pilates',
             'Soccer' => 'Soccer',

@@ -19,7 +19,9 @@ return new class extends Migration
             $table->unsignedInteger('moving_time')->default(0);
             $table->unsignedInteger('elapsed_time')->default(0);
             $table->decimal('total_elevation_gain', 10, 2)->default(0);
-            $table->timestamp('started_at')->index();
+            // This is a Strava event time, not a database-managed timestamp.
+            // DATETIME avoids MySQL's legacy implicit CURRENT_TIMESTAMP rules.
+            $table->dateTime('started_at')->index();
             $table->string('timezone')->nullable();
             $table->boolean('commute')->default(false);
             $table->boolean('trainer')->default(false);

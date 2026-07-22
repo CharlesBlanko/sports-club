@@ -44,19 +44,21 @@ class SyncStravaActivities
         return $synced;
     }
 
-    private function startedAt(array $activity): Carbon
+    private function startedAt(array $activity): string
     {
         $timezone = $this->activityTimezone($activity['timezone'] ?? null);
 
         if (! empty($activity['start_date'])) {
-            return Carbon::parse($activity['start_date'])->setTimezone($timezone);
+            return Carbon::parse($activity['start_date'])
+                ->setTimezone($timezone)
+                ->format('Y-m-d H:i:s');
         }
 
         // Strava suffixes start_date_local with "Z", although its clock value is
         // already local. Remove that suffix so Carbon does not interpret it as UTC.
         $localStart = preg_replace('/Z$/', '', $activity['start_date_local']);
 
-        return Carbon::parse($localStart, $timezone);
+        return Carbon::parse($localStart, $timezone)->format('Y-m-d H:i:s');
     }
 
     private function activityTimezone(?string $timezone): string
